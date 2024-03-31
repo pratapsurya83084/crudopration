@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <input type="text" placeholder="enter name" id="input1"> <br>
+    <input type="email" placeholder="enter email" id="input2"> <br>
+    <input type="password" placeholder="enter password" id="input3"> <br>
+    <input type="tel" placeholder="enter phone.no" id="input4"> <br>
+
+    <input type="submit" onclick="element()" value="submit" />
+
+    <table border="2px">
+        <tr>
+            <th>name</th>
+            <th>email</th>
+            <th>password</th>
+            <th>phoneno</th>
+            <th>Action</th>
+        </tr>
+
+        <tbody id="tableBody">
+            <!-- Table rows will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        let array = JSON.parse(localStorage.getItem('dataArray')) || [];
+
+        window.onload = function () {
+            loadTableData();
+        };
+
+        function element() {
+            let a = document.getElementById("input1").value;
+            let b = document.getElementById("input2").value;
+            let c = document.getElementById("input3").value;
+            let d = document.getElementById("input4").value;
+
+            let object = {
+                name: a,
+                email: b,
+                password: c,
+                phoneno: d,
+            }
+
+            array.push(object);
+            localStorage.setItem('dataArray', JSON.stringify(array));
+
+            loadTableData();
+        }
+
+        function loadTableData() {
+            document.getElementById('tableBody').innerHTML = "";
+
+            array.forEach((item, index) => {
+                let row = document.getElementById('tableBody').insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                let cell4 = row.insertCell(3);
+                let cell5 = row.insertCell(4);
+                //  console.log(row);
+                let r1 = cell1.innerHTML = item.name;//take row[0] value and display input1
+                let r2 = cell2.innerHTML = item.email;
+                let r3 = cell3.innerHTML = item.password;
+                let r4 = cell4.innerHTML = item.phoneno;
+              //  console.log(r1, r2, r3, r4);//r1 is first row,r2 is second row
+                let deletebtn = cell5.innerHTML = `<button onClick="removedata(${index})">Remove</button>` + `<button onClick="Update(${index})">Update</button>`;
+            });
+        }
+
+        function removedata(index) {
+            array.splice(index, 1); // Remove the item from the array
+            localStorage.setItem('dataArray', JSON.stringify(array)); // Update local storage
+            loadTableData(); // Reload table data
+        }
+
+        function Update() {
+          document.body.childNodes('input type')= removedata(index)
+            
+        }
+
+        loadTableData();
+    </script>
+</body>
+
+</html>
